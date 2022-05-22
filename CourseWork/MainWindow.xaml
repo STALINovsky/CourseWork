@@ -16,7 +16,7 @@
                 <Grid Background="#FFE5E5E5">
                     <dxg:GridControl AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" ItemsSource="{Binding Employees}">
                         <dxg:GridControl.View>
-                            <dxg:TableView AutoWidth="True" />
+                            <dxg:TableView AutoWidth="True" BestFitModeOnSourceChange="VisibleRows" ShowUpdateRowButtons="OnCellEditorOpen" ValidateRowCommand="{Binding ValidateAndSaveCommand}"/>
                         </dxg:GridControl.View>
                         <dxg:GridColumn FieldName="Id" IsSmart="True"/>
                         <dxg:GridColumn FieldName="Name" IsSmart="True"/>

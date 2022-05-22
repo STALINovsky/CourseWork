@@ -1,6 +1,8 @@
 ﻿using DataBaseAccess;
 using DevExpress.Mvvm;
+using DevExpress.Mvvm.DataAnnotations;
 using DevExpress.Mvvm.Utils;
+using DevExpress.Mvvm.Xpf;
 using Model;
 using System.Collections.ObjectModel;
 
@@ -23,6 +25,12 @@ namespace CourseWork.ViewModels
 
             dbContext.Employees.Load();
             Employees = dbContext.Employees.Local.ToObservableCollection();
+        }
+
+        [Command]
+        public void ValidateAndSave(RowValidationArgs args)
+        {
+            dbContext.SaveChanges();
         }
     }
 }
