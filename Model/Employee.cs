@@ -1,6 +1,6 @@
 ﻿namespace Model
 {
-    public class Emploee : BaseEntity
+    public class Employee : BaseEntity
     {
         public string Name { get; set; }
         public string Surname { get; set; }

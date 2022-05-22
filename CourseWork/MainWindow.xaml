@@ -1,20 +1,36 @@
-﻿<Window x:Class="CourseWork.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CourseWork"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+﻿<dx:ThemedWindow
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:CourseWork"
+    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" xmlns:ViewModels="clr-namespace:CourseWork.ViewModels" x:Class="CourseWork.MainWindow" mc:Ignorable="d" Title="MainWindow" Height="450" Width="800"
+    >
+    <dx:ThemedWindow.DataContext>
+        <ViewModels:EmployeeViewModel/>
+    </dx:ThemedWindow.DataContext>
     <Grid>
         <TabControl x:Name="tabControl">
             <TabItem Header="Employee">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5">
+                    <dxg:GridControl AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" ItemsSource="{Binding Employees}">
+                        <dxg:GridControl.View>
+                            <dxg:TableView AutoWidth="True" />
+                        </dxg:GridControl.View>
+                        <dxg:GridColumn FieldName="Id" IsSmart="True"/>
+                        <dxg:GridColumn FieldName="Name" IsSmart="True"/>
+                        <dxg:GridColumn FieldName="Surname" IsSmart="True"/>
+                        <dxg:GridColumn FieldName="BirthDate" IsSmart="True"/>
+                        <dxg:GridColumn FieldName="PhoneNumber" IsSmart="True"/>
+                        <dxg:GridColumn FieldName="Salary" IsSmart="True"/>
+                    </dxg:GridControl>
+                </Grid>
             </TabItem>
             <TabItem Header="Client">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5" />
             </TabItem>
         </TabControl>
 
     </Grid>
-</Window>
+</dx:ThemedWindow>

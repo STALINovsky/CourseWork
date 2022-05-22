@@ -9,7 +9,7 @@ namespace Model
         public Client Client { get; set; }
         public ICollection<OrderedBook> OrderedBooks { get; set; }
         public OrderStatus OrderStatus { get; set; }
-        public Emploee Emploee { get; set; }
+        public Employee Emploee { get; set; }
 
         public override string ToString()
         {

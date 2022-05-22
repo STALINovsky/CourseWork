@@ -16,7 +16,7 @@ namespace DataBaseAccess
         }
 
         public DbSet<Client> Consumers { get; set; }
-        public DbSet<Emploee> Employees { get; set; }
+        public DbSet<Employee> Employees { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<OrderedBook> OrderedBooks { get; set; }
