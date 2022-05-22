@@ -111,6 +111,8 @@
                         <dxb:BarButtonItem Content="Edit" Command="{Binding View.Commands.EditFocusedRow, ElementName=OrderGrid}" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Edit.svg}" BarItemDisplayMode="ContentAndGlyph" />
                         <dxb:BarButtonItem Content="New" Command="{Binding View.Commands.AddNewRow, ElementName=OrderGrid}" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Add.svg}" BarItemDisplayMode="ContentAndGlyph" />
                         <dxb:BarButtonItem Content="Delete" Command="{Binding View.Commands.DeleteFocusedRow, ElementName=OrderGrid}" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Delete.svg}" BarItemDisplayMode="ContentAndGlyph" />
+                        <dxb:BarButtonItem Content="AddOrderItem" Command="{Binding View.Commands.AddNewRow, ElementName=OrderedBookGrid}" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Add.svg}" BarItemDisplayMode="ContentAndGlyph" />
+                        <dxb:BarButtonItem Content="DeleteOrderItem" Command="{Binding View.Commands.DeleteFocusedRow, ElementName=OrderedBookGrid}" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Delete.svg}" BarItemDisplayMode="ContentAndGlyph" />
                     </dxb:ToolBarControl>
 
                     <dxg:GridControl x:Name="OrderGrid" ItemsSource="{Binding Orders, Mode=OneWay}" Margin="0,26,0,0">
@@ -120,7 +122,19 @@
 
                         <dxg:GridControl.DetailDescriptor>
                             <dxg:DataControlDetailDescriptor ItemsSourceBinding="{Binding OrderedBooks}">
-                                <dxg:GridControl AutoGenerateColumns="AddNew"/>
+                                <dxg:GridControl x:Name="OrderedBookGrid">
+                                    <dxg:GridControl.View>
+                                        <dxg:TableView AutoWidth="True" 
+                                        ShowTotalSummary="True"
+                                        ShowFixedTotalSummary="True"
+                                        AllowEditing="False"             
+                                        ValidateRowCommand="{Binding ValidateOrderRowCommand}"
+                                        ValidateRowDeletionCommand="{Binding ValidateOrderRowDeletionCommand}"/>   
+                                    </dxg:GridControl.View>
+                                    <dxg:GridColumn IsSmart="True" FieldName="Name"/>
+                                    <dxg:GridColumn IsSmart="True" FieldName="Description"/>
+                                    <dxg:GridColumn IsSmart="True" FieldName="Author"  />
+                                </dxg:GridControl>
                             </dxg:DataControlDetailDescriptor>
                         </dxg:GridControl.DetailDescriptor>
 
