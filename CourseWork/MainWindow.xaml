@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:CourseWork"
-    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" xmlns:ViewModels="clr-namespace:CourseWork.ViewModels" x:Class="CourseWork.MainWindow" mc:Ignorable="d" Title="MainWindow" Height="450" Width="800"
+    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" xmlns:ViewModels="clr-namespace:CourseWork.ViewModels" xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars" x:Class="CourseWork.MainWindow" mc:Ignorable="d" Title="MainWindow" Height="450" Width="800"
     >
     <dx:ThemedWindow.DataContext>
         <ViewModels:EmployeeViewModel/>
@@ -14,11 +14,27 @@
         <TabControl x:Name="tabControl">
             <TabItem Header="Employee">
                 <Grid Background="#FFE5E5E5">
-                    <dxg:GridControl AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" ItemsSource="{Binding Employees}">
+                    <dxb:ToolBarControl>
+                        <dxb:BarButtonItem Content="Edit" Command="{Binding View.Commands.EditFocusedRow, ElementName=EmployeeGrid}" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Edit.svg}" BarItemDisplayMode="ContentAndGlyph" />
+                        <dxb:BarButtonItem Content="New" Command="{Binding View.Commands.AddNewRow, ElementName=EmployeeGrid}" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Add.svg}" BarItemDisplayMode="ContentAndGlyph" />
+                        <dxb:BarButtonItem Content="Delete" Command="{Binding View.Commands.DeleteFocusedRow, ElementName=EmployeeGrid}" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Delete.svg}" BarItemDisplayMode="ContentAndGlyph" />
+                    </dxb:ToolBarControl>
+                    <dxg:GridControl x:Name="EmployeeGrid" ItemsSource="{Binding Employees}" Margin="0,26,0,0">
+                        <dxg:GridControl.TotalSummary>
+                            <dxg:GridSummaryItem FieldName="Id" 
+                             SummaryType="Count"
+                             Alignment="Left"/>
+                        </dxg:GridControl.TotalSummary>
                         <dxg:GridControl.View>
-                            <dxg:TableView AutoWidth="True" BestFitModeOnSourceChange="VisibleRows" ShowUpdateRowButtons="OnCellEditorOpen" ValidateRowCommand="{Binding ValidateAndSaveCommand}"/>
+                            <dxg:TableView AutoWidth="True" 
+                               ShowTotalSummary="True"
+                               ShowFixedTotalSummary="True"
+                               ShowUpdateRowButtons="OnCellEditorOpen"
+                               ValidateRowCommand="{Binding ValidateEmployeeRowCommand}"
+                               ValidateRowDeletionCommand="{Binding ValidateEmployeeRowDeletionCommand}"
+                                 />
                         </dxg:GridControl.View>
-                        <dxg:GridColumn FieldName="Id" IsSmart="True"/>
+                        <dxg:GridColumn FieldName="Id" IsSmart="True" ReadOnly="True"/>
                         <dxg:GridColumn FieldName="Name" IsSmart="True"/>
                         <dxg:GridColumn FieldName="Surname" IsSmart="True"/>
                         <dxg:GridColumn FieldName="BirthDate" IsSmart="True"/>
@@ -31,6 +47,5 @@
                 <Grid Background="#FFE5E5E5" />
             </TabItem>
         </TabControl>
-
     </Grid>
 </dx:ThemedWindow>
