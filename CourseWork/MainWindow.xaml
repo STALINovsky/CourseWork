@@ -8,7 +8,7 @@
     xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" xmlns:ViewModels="clr-namespace:CourseWork.ViewModels" xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars" x:Class="CourseWork.MainWindow" mc:Ignorable="d" Title="MainWindow" Height="450" Width="800"
     >
     <dx:ThemedWindow.DataContext>
-        <ViewModels:EmployeeViewModel/>
+        <ViewModels:DataViewModel/>
     </dx:ThemedWindow.DataContext>
     <Grid>
         <TabControl x:Name="tabControl">
@@ -44,7 +44,34 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Client">
-                <Grid Background="#FFE5E5E5" />
+                <Grid Background="#FFE5E5E5" >
+                    <dxb:ToolBarControl>
+                        <dxb:BarButtonItem Content="Edit" Command="{Binding View.Commands.EditFocusedRow, ElementName=ClientGrid}" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Edit.svg}" BarItemDisplayMode="ContentAndGlyph" />
+                        <dxb:BarButtonItem Content="New" Command="{Binding View.Commands.AddNewRow, ElementName=ClientGrid}" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Add.svg}" BarItemDisplayMode="ContentAndGlyph" />
+                        <dxb:BarButtonItem Content="Delete" Command="{Binding View.Commands.DeleteFocusedRow, ElementName=ClientGrid}" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Delete.svg}" BarItemDisplayMode="ContentAndGlyph" />
+                    </dxb:ToolBarControl>
+                    <dxg:GridControl x:Name="ClientGrid" ItemsSource="{Binding Clients, Mode=OneWay}" Margin="0,26,0,0">
+                        <dxg:GridControl.TotalSummary>
+                            <dxg:GridSummaryItem FieldName="Id" 
+                             SummaryType="Count"
+                             Alignment="Left"/>
+                        </dxg:GridControl.TotalSummary>
+                        <dxg:GridControl.View>
+                            <dxg:TableView AutoWidth="True" 
+                               ShowTotalSummary="True"
+                               ShowFixedTotalSummary="True"
+                               ShowUpdateRowButtons="OnCellEditorOpen"
+                               ValidateRowCommand="{Binding ValidateClientRowCommand}"
+                               ValidateRowDeletionCommand="{Binding ValidateClientRowDeletionCommand}"
+                                 />
+                        </dxg:GridControl.View>
+                        <dxg:GridColumn FieldName="Id" IsSmart="True" ReadOnly="True"/>
+                        <dxg:GridColumn FieldName="Name" IsSmart="True"/>
+                        <dxg:GridColumn FieldName="Surname" IsSmart="True"/>
+                        <dxg:GridColumn FieldName="BirthDate" IsSmart="True"/>
+                        <dxg:GridColumn FieldName="PhoneNumber" IsSmart="True"/>
+                    </dxg:GridControl>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

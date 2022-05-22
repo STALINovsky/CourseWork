@@ -1,8 +1,8 @@
 ﻿using DataBaseAccess;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.DataAnnotations;
-using DevExpress.Mvvm.Utils;
 using DevExpress.Mvvm.Xpf;
+using Microsoft.EntityFrameworkCore;
 using Model;
 using System;
 using System.Collections.ObjectModel;
@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace CourseWork.ViewModels
 {
-    public class EmployeeViewModel : ViewModelBase
+    public class DataViewModel : ViewModelBase
     {
         BDLabsDbContext dbContext;
 
@@ -20,13 +20,20 @@ namespace CourseWork.ViewModels
             private set => SetValue(value);
         }
 
-        public EmployeeViewModel()
+        public ObservableCollection<Client> Clients
+        {
+            get => GetValue<ObservableCollection<Client>>();
+            private set => SetValue(value);
+        }
+
+        public DataViewModel()
         {
             dbContext = new();
 
-
             dbContext.Employees.Load();
+            dbContext.Clients.Load();
             Employees = dbContext.Employees.Local.ToObservableCollection();
+            Clients = dbContext.Clients.Local.ToObservableCollection(); 
         }
 
         [Command]
@@ -60,15 +67,44 @@ namespace CourseWork.ViewModels
         [Command]
         public void ValidateEmployeeRowDeletion(ValidateRowDeletionArgs args)
         {
-            var item = (Employee)args.Items.Single();
-            dbContext.Employees.Remove(item);
+            var item = (Client)args.Items.Single();
+            dbContext.Clients.Remove(item);
             dbContext.SaveChanges();
         }
 
-        [Command]
-        public void DataSourceRefresh(DataSourceRefreshArgs args)
-        {
 
+        [Command]
+        public void ValidateClientRow(RowValidationArgs args)
+        {
+            var item = (Client)args.Item;
+            args.Result = GetClientValidationErrorInfo(item);
+            if (args.Result == null)
+            {
+                if (args.IsNewItem)
+                    dbContext.Clients.Add(item);
+                dbContext.SaveChanges();
+            }
+        }
+
+        private static ValidationErrorInfo GetClientValidationErrorInfo(Client client)
+        {
+            if (string.IsNullOrEmpty(client.Name))
+                return new ValidationErrorInfo("Please fill Name");
+            if (string.IsNullOrEmpty(client.Surname))
+                return new ValidationErrorInfo("Please fill Name");
+            if (string.IsNullOrEmpty(client.PhoneNumber))
+                return new ValidationErrorInfo("Please fill Phone Number");
+            if (client.BirthDate > DateTime.Now)
+                return new ValidationErrorInfo("Invalid Birth Date");
+            return null;
+        }
+
+        [Command]
+        public void ValidateClientRowDeletion(ValidateRowDeletionArgs args)
+        {
+            var item = (Client)args.Items.Single();
+            dbContext.Clients.Remove(item);
+            dbContext.SaveChanges();
         }
     }
 }
