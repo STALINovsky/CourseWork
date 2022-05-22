@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:CourseWork"
-    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" xmlns:ViewModels="clr-namespace:CourseWork.ViewModels" xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars" x:Class="CourseWork.MainWindow" mc:Ignorable="d" Title="MainWindow" Height="450" Width="800"
+    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" xmlns:ViewModels="clr-namespace:CourseWork.ViewModels" xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" x:Class="CourseWork.MainWindow" mc:Ignorable="d" Title="MainWindow" Height="450" Width="800"
     >
     <dx:ThemedWindow.DataContext>
         <ViewModels:DataViewModel/>
@@ -14,12 +14,16 @@
         <TabControl x:Name="tabControl">
             <TabItem Header="Employee">
                 <Grid Background="#FFE5E5E5">
-                    <dxb:ToolBarControl>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="84*"/>
+                        <ColumnDefinition Width="313*"/>
+                    </Grid.ColumnDefinitions>
+                    <dxb:ToolBarControl Grid.ColumnSpan="2">
                         <dxb:BarButtonItem Content="Edit" Command="{Binding View.Commands.EditFocusedRow, ElementName=EmployeeGrid}" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Edit.svg}" BarItemDisplayMode="ContentAndGlyph" />
                         <dxb:BarButtonItem Content="New" Command="{Binding View.Commands.AddNewRow, ElementName=EmployeeGrid}" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Add.svg}" BarItemDisplayMode="ContentAndGlyph" />
                         <dxb:BarButtonItem Content="Delete" Command="{Binding View.Commands.DeleteFocusedRow, ElementName=EmployeeGrid}" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Delete.svg}" BarItemDisplayMode="ContentAndGlyph" />
                     </dxb:ToolBarControl>
-                    <dxg:GridControl x:Name="EmployeeGrid" ItemsSource="{Binding Employees}" Margin="0,26,0,0">
+                    <dxg:GridControl x:Name="EmployeeGrid" ItemsSource="{Binding Employees}" Margin="0,26,0,0" Grid.ColumnSpan="2">
                         <dxg:GridControl.TotalSummary>
                             <dxg:GridSummaryItem FieldName="Id" 
                              SummaryType="Count"
@@ -70,6 +74,79 @@
                         <dxg:GridColumn FieldName="Surname" IsSmart="True"/>
                         <dxg:GridColumn FieldName="BirthDate" IsSmart="True"/>
                         <dxg:GridColumn FieldName="PhoneNumber" IsSmart="True"/>
+                    </dxg:GridControl>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Book" Height="20" VerticalAlignment="Top">
+                <Grid Background="#FFE5E5E5" >
+                    <dxb:ToolBarControl>
+                        <dxb:BarButtonItem Content="Edit" Command="{Binding View.Commands.EditFocusedRow, ElementName=BookGrid}" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Edit.svg}" BarItemDisplayMode="ContentAndGlyph" />
+                        <dxb:BarButtonItem Content="New" Command="{Binding View.Commands.AddNewRow, ElementName=BookGrid}" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Add.svg}" BarItemDisplayMode="ContentAndGlyph" />
+                        <dxb:BarButtonItem Content="Delete" Command="{Binding View.Commands.DeleteFocusedRow, ElementName=BookGrid}" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Delete.svg}" BarItemDisplayMode="ContentAndGlyph" />
+                    </dxb:ToolBarControl>
+                    <dxg:GridControl x:Name="BookGrid" ItemsSource="{Binding Books, Mode=OneWay}" Margin="0,26,0,0">
+                        <dxg:GridControl.TotalSummary>
+                            <dxg:GridSummaryItem FieldName="Id" SummaryType="Count" Alignment="Left"/>
+                            <dxg:GridSummaryItem FieldName="StockCount" SummaryType="Sum" Alignment="Left"/>
+                        </dxg:GridControl.TotalSummary>
+                        <dxg:GridControl.View>
+                            <dxg:TableView AutoWidth="True" 
+                               ShowTotalSummary="True"
+                               ShowFixedTotalSummary="True"
+                               ShowUpdateRowButtons="OnCellEditorOpen"
+                               ValidateRowCommand="{Binding ValidateBookRowCommand}"
+                               ValidateRowDeletionCommand="{Binding ValidateBookRowDeletionCommand}"/>
+                        </dxg:GridControl.View>
+                        <dxg:GridColumn FieldName="Id" IsSmart="True" ReadOnly="True"/>
+                        <dxg:GridColumn FieldName="Name" IsSmart="True"/>
+                        <dxg:GridColumn FieldName="Description" IsSmart="True"/>
+                        <dxg:GridColumn FieldName="Author" IsSmart="True"/>
+                        <dxg:GridColumn FieldName="StockCount" IsSmart="True"/>
+                    </dxg:GridControl>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Order">
+                <Grid Background="#FFE5E5E5" >
+                    <dxb:ToolBarControl>
+                        <dxb:BarButtonItem Content="Edit" Command="{Binding View.Commands.EditFocusedRow, ElementName=OrderGrid}" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Edit.svg}" BarItemDisplayMode="ContentAndGlyph" />
+                        <dxb:BarButtonItem Content="New" Command="{Binding View.Commands.AddNewRow, ElementName=OrderGrid}" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Add.svg}" BarItemDisplayMode="ContentAndGlyph" />
+                        <dxb:BarButtonItem Content="Delete" Command="{Binding View.Commands.DeleteFocusedRow, ElementName=OrderGrid}" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Delete.svg}" BarItemDisplayMode="ContentAndGlyph" />
+                    </dxb:ToolBarControl>
+
+                    <dxg:GridControl x:Name="OrderGrid" ItemsSource="{Binding Orders, Mode=OneWay}" Margin="0,26,0,0">
+                        <dxg:GridControl.TotalSummary>
+                            <dxg:GridSummaryItem FieldName="Id" SummaryType="Count" Alignment="Left"/>
+                        </dxg:GridControl.TotalSummary>
+
+                        <dxg:GridControl.DetailDescriptor>
+                            <dxg:DataControlDetailDescriptor ItemsSourceBinding="{Binding OrderedBooks}">
+                                <dxg:GridControl AutoGenerateColumns="AddNew"/>
+                            </dxg:DataControlDetailDescriptor>
+                        </dxg:GridControl.DetailDescriptor>
+
+                        <dxg:GridControl.View>
+                            <dxg:TableView AutoWidth="True" 
+                               ShowTotalSummary="True"
+                               ShowFixedTotalSummary="True"
+                               ShowUpdateRowButtons="OnCellEditorOpen"
+                               ValidateRowCommand="{Binding ValidateOrderRowCommand}"
+                               ValidateRowDeletionCommand="{Binding ValidateOrderRowDeletionCommand}"
+                               AllowMasterDetail="True"/>
+                        </dxg:GridControl.View>
+                        <dxg:GridColumn FieldName="Id" IsSmart="True"/>
+                        <dxg:GridColumn FieldName="CreateDate" IsSmart="True"/>
+                        <dxg:GridColumn FieldName="CloseDate" IsSmart="True"/>
+                        <dxg:GridColumn FieldName="Client" IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:ComboBoxEditSettings AllowCollectionView="True" ItemsSource="{Binding Clients}"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn FieldName="OrderStatus" IsSmart="True"/>
+                        <dxg:GridColumn FieldName="Emploee" IsSmart="True">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:ComboBoxEditSettings ItemsSource="{Binding Employees}"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
                     </dxg:GridControl>
                 </Grid>
             </TabItem>

@@ -5,7 +5,7 @@ namespace Model
     public class Order : BaseEntity
     {
         public DateTime CreateDate { get; set; }
-        public DateTime CloseDate { get; set; }
+        public DateTime? CloseDate { get; set; }
         public Client Client { get; set; }
         public ICollection<OrderedBook> OrderedBooks { get; set; }
         public OrderStatus OrderStatus { get; set; }
